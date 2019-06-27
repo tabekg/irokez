@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="/post/create" class="btn btn-primary mb-2 float-right">Добавить новость</a>
-    <div class="clearfix"></div>
+    {% if app.user %}
+        <a href="/post/create" class="btn btn-primary mb-2 float-right">Добавить новость</a>
+        <div class="clearfix"></div>
+    {% endif %}
     <div class="card">
         <h4 class="card-header">Новости</h4>
         <div class="list-group list-group-flush">

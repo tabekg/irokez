@@ -25,7 +25,8 @@ class PostController extends Controller
 
         return $this->render('@App/Post/show.html.twig', array(
             'title' => $title,
-            'post' => $post
+            'post' => $post,
+            'hasAccess' => $this->getUser() && ($this->getUser()->getIsAdmin() || $post->getUserId() === $this->getUser()->getId())
         ));
     }
 

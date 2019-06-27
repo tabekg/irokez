@@ -155,5 +155,14 @@ class Post
     {
         return $this->createdOn;
     }
+
+    /**
+     * Get tags
+     *
+     * @return Tag[]
+     */
+    public function getTags(){
+
+    }
 }
 

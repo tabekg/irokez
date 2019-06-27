@@ -16,6 +16,7 @@ class PostType extends AbstractType {
         $builder
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
+            ->add('tags', TextType::class)
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Авторы{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <h4 class="card-header">Авторы</h4>
+        <div class="list-group list-group-flush">
+            {% for author in authors %}
+                <a href="/author/{{ author.id }}" class="list-group-item list-group-item-action">{{ author.username }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
