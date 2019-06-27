@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <h4 class="card-header">{{ title }}</h4>
+        {% if post %}
+            <div class="card-body">
+                <div class="mb-2">{{ post.content }}</div>
+                <div>{{ post.createdon|date('Y-m-d H:i') }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
