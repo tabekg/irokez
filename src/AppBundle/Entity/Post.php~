@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +55,12 @@ class Post
      * @ORM\Column(name="tags", type="text")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $author;
 
     /**
      * Get id
@@ -161,5 +166,53 @@ class Post
     public function getCreatedOn()
     {
         return $this->createdOn;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param string $tags
+     *
+     * @return Post
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Post
+     */
+    public function setAuthor(\AppBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

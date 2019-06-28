@@ -57,6 +57,12 @@ class Post
     private $tags;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $author;
+
+    /**
      * Get id
      *
      * @return int
@@ -184,5 +190,29 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Post
+     */
+    public function setAuthor(\AppBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

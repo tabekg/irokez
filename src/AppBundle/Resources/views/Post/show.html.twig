@@ -9,6 +9,7 @@
             <div class="card-body">
                 <div class="mb-2">{{ post.content }}</div>
                 <div class="mb-2">{{ post.createdon|date('Y-m-d H:i') }}</div>
+                <div class="mb-2"><strong>Автор: </strong><a href="/author/{{ post.author.id }}">{{ post.author.username }}</a></div>
                 <div>
                     <strong>Теги: </strong>
                     {% for tag in tags %}

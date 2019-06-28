@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use AppBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,13 +34,32 @@ class PostController extends Controller
     }
 
     /**
+     * @Route("/author/{id}", name="showAuthorsPosts", requirements={"id"="\d+"})
+     */
+    public function showAuthorsPostsAction($id)
+    {
+        $title = 'Данный автор не найден!';
+
+        $repository = $this->getDoctrine()->getRepository(User::class);
+
+        $user = $repository->find($id);
+
+        if ($user) $title = $user->getUsername();
+
+        return $this->render('@App/Post/showAuthorsPosts.html.twig', array(
+            'title' => $title,
+            'posts' => $user ? $user->getPosts() : []
+        ));
+    }
+
+    /**
      * @Route("/post/{id}/delete", name="deletePost", requirements={"id"="\d+"})
      */
     public function deleteAction($id)
     {
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
 
-        if ($post){
+        if ($post && $this->getUser() && ($this->getUser()->getIsAdmin() || $post->getUserId() === $this->getUser()->getId())){
             $em = $this->getDoctrine()->getManager();
             $em->remove($post);
             $em->flush();
@@ -74,7 +94,7 @@ class PostController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $post->setUserId($this->getUser()->getId());
+            $post->setAuthor($this->getUser());
             $post->setCreatedOn(new \DateTime());
             $post->setTags(strtolower($post->getTags()));
 

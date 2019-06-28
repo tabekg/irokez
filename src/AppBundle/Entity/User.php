@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +45,15 @@ class User implements UserInterface
      * @ORM\Column(name="isAdmin", type="boolean")
      */
     private $isAdmin;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     */
+    private $posts;
+
+    public function __construct() {
+        $this->posts = new ArrayCollection();
+    }
 
 
     /**
@@ -170,5 +180,73 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Add feature
+     *
+     * @param \AppBundle\Entity\Post $feature
+     *
+     * @return User
+     */
+    public function addFeature(\AppBundle\Entity\Post $feature)
+    {
+        $this->features[] = $feature;
+
+        return $this;
+    }
+
+    /**
+     * Remove feature
+     *
+     * @param \AppBundle\Entity\Post $feature
+     */
+    public function removeFeature(\AppBundle\Entity\Post $feature)
+    {
+        $this->features->removeElement($feature);
+    }
+
+    /**
+     * Get features
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFeatures()
+    {
+        return $this->features;
+    }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

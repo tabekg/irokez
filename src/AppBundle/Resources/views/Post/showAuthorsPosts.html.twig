@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <h4 class="card-header">{{ title }}</h4>
+        {% if posts %}
+            <div class="list-group list-group-flush">
+                {% for post in posts %}
+                    <a href="/post/{{ post.id }}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
