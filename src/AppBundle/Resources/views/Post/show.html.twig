@@ -18,7 +18,7 @@
                 </div>
                 {% if hasAccess %}
                     <div class="mt-3">
-                        <a class="btn btn-warning" href="/post/edit/{{ post.id }}">Редактировать</a>
+                        <a class="btn btn-warning" href="/post/{{ post.id }}/edit">Редактировать</a>
                         <a class="btn btn-danger" href="#" onclick="_delete(event, {{ post.id }})">Удалить</a>
                     </div>
                 {% endif %}

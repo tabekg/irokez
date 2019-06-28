@@ -183,40 +183,6 @@ class User implements UserInterface
     }
 
     /**
-     * Add feature
-     *
-     * @param \AppBundle\Entity\Post $feature
-     *
-     * @return User
-     */
-    public function addFeature(\AppBundle\Entity\Post $feature)
-    {
-        $this->features[] = $feature;
-
-        return $this;
-    }
-
-    /**
-     * Remove feature
-     *
-     * @param \AppBundle\Entity\Post $feature
-     */
-    public function removeFeature(\AppBundle\Entity\Post $feature)
-    {
-        $this->features->removeElement($feature);
-    }
-
-    /**
-     * Get features
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFeatures()
-    {
-        return $this->features;
-    }
-
-    /**
      * Add post
      *
      * @param \AppBundle\Entity\Post $post

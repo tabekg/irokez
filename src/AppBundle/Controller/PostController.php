@@ -53,6 +53,25 @@ class PostController extends Controller
     }
 
     /**
+     * @Route("/tag/{tag}", name="showTagsPosts")
+     */
+    public function showTagsPostsAction($tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $posts = $em->getRepository(Post::class)->createQueryBuilder('o')
+            ->where('o.tags LIKE :tag')
+            ->setParameter('tag', "%$tag%")
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('@App/Post/showAuthorsPosts.html.twig', array(
+            'title' => "Тег $tag",
+            'posts' => $posts
+        ));
+    }
+
+    /**
      * @Route("/post/{id}/delete", name="deletePost", requirements={"id"="\d+"})
      */
     public function deleteAction($id)
@@ -69,12 +88,36 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/edit")
+     * @Route("/post/{id}/edit", name="editPost", requirements={"id"="\d+"})
+     * @param Request $request
      */
-    public function editAction()
+    public function editAction(Request $request, $id)
     {
-        return $this->render('AppBundle:Post:edit.html.twig', array(
-            // ...
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if (!$post) return $this->redirectToRoute('home');
+        if (
+            !$this->getUser() ||
+            (!$this->getUser()->getIsAdmin() && $this->getUser()->getId() != $post->getUserId())
+        ) return $this->redirectToRoute('showPost', ['id' => $post->getId()]);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $post->setTags(strtolower($post->getTags()));
+
+            $em->persist($post);
+            $em->flush();
+
+            return $this->redirectToRoute('showPost', ['id' => $post->getId()]);
+        }
+
+        return $this->render('@App/Post/edit.html.twig', array(
+            'form' => $form->createView(),
+            'title' => $post->getTitle()
         ));
     }
 

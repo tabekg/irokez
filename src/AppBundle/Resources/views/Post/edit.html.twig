@@ -1,7 +1,11 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 
-{% block title %}AppBundle:Post:edit{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Post:edit page</h1>
+    <div class="card">
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
 {% endblock %}
