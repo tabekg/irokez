@@ -2,15 +2,16 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Comment
+ * Post
  *
- * @ORM\Table(name="comment")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
+ * @ORM\Table(name="post")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  */
-class Comment
+class Post
 {
     /**
      * @var int
@@ -29,11 +30,11 @@ class Comment
     private $userId;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="post_id", type="integer")
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $postId;
+    private $title;
 
     /**
      * @var string
@@ -49,6 +50,12 @@ class Comment
      */
     private $createdOn;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags", type="text")
+     */
+    private $tags;
 
     /**
      * Get id
@@ -65,7 +72,7 @@ class Comment
      *
      * @param integer $userId
      *
-     * @return Comment
+     * @return Post
      */
     public function setUserId($userId)
     {
@@ -85,27 +92,27 @@ class Comment
     }
 
     /**
-     * Set postId
+     * Set title
      *
-     * @param integer $postId
+     * @param string $title
      *
-     * @return Comment
+     * @return Post
      */
-    public function setPostId($postId)
+    public function setTitle($title)
     {
-        $this->postId = $postId;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get postId
+     * Get title
      *
-     * @return int
+     * @return string
      */
-    public function getPostId()
+    public function getTitle()
     {
-        return $this->postId;
+        return $this->title;
     }
 
     /**
@@ -113,7 +120,7 @@ class Comment
      *
      * @param string $content
      *
-     * @return Comment
+     * @return Post
      */
     public function setContent($content)
     {
@@ -137,7 +144,7 @@ class Comment
      *
      * @param \DateTime $createdOn
      *
-     * @return Comment
+     * @return Post
      */
     public function setCreatedOn($createdOn)
     {

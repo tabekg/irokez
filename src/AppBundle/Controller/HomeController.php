@@ -24,18 +24,6 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/tags", name="tags")
-     */
-    public function tagsAction()
-    {
-        $tags = [['id' => 0, 'tag' => 'Tag name']];
-
-        return $this->render('@App/Home/tags.html.twig', array(
-            'tags' => $tags
-        ));
-    }
-
-    /**
      * @Route("/authors", name="authors")
      */
     public function authorsAction()

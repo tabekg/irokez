@@ -20,24 +20,32 @@ class PostController extends Controller
         $repository = $this->getDoctrine()->getRepository(Post::class);
 
         $post = $repository->find($id);
+        $tags = explode(' ', $post->getTags());
 
         if ($post) $title = $post->getTitle();
 
         return $this->render('@App/Post/show.html.twig', array(
             'title' => $title,
             'post' => $post,
+            'tags' => $tags,
             'hasAccess' => $this->getUser() && ($this->getUser()->getIsAdmin() || $post->getUserId() === $this->getUser()->getId())
         ));
     }
 
     /**
-     * @Route("/post/delete")
+     * @Route("/post/{id}/delete", name="deletePost", requirements={"id"="\d+"})
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->render('AppBundle:Post:delete.html.twig', array(
-            // ...
-        ));
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        if ($post){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($post);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -68,6 +76,7 @@ class PostController extends Controller
         if ($form->isSubmitted() && $form->isValid()){
             $post->setUserId($this->getUser()->getId());
             $post->setCreatedOn(new \DateTime());
+            $post->setTags(strtolower($post->getTags()));
 
             $em->persist($post);
             $em->flush();

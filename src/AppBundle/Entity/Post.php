@@ -49,6 +49,12 @@ class Post
      */
     private $createdOn;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags", type="text")
+     */
+    private $tags;
 
     /**
      * Get id
@@ -157,12 +163,26 @@ class Post
     }
 
     /**
+     * Set tags
+     *
+     * @param string $tags
+     *
+     * @return Post
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
      * Get tags
      *
-     * @return Tag[]
+     * @return string
      */
-    public function getTags(){
-
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
-
